@@ -4,9 +4,13 @@ import iziToast from 'izitoast'; // Описаний у документації
 import 'izitoast/dist/css/iziToast.min.css'; // Додатковий імпорт стилів
 
 const gallery = document.querySelector('.gallery');
+const loadBtn = document.querySelector('.load-btn');
+
+export let totalHits = 0;
 
 const renderImages = data => {
   const { hits } = data;
+  totalHits = data.totalHits;
 
   if (hits.length === 0) {
     iziToast.error({
@@ -16,7 +20,10 @@ const renderImages = data => {
       position: 'topRight',
       backgroundColor: 'red',
     });
+
+    loadBtn.style.display = 'none';
   }
+
   return hits
     .map(
       ({
@@ -45,10 +52,10 @@ const renderImages = data => {
 
 export const showGallery = data => {
   const markup = renderImages(data);
-  gallery.innerHTML = markup;
+  gallery.insertAdjacentHTML('beforeend', markup);
 };
 
+const lightbox = new SimpleLightbox('.gallery a');
 export const lightBoxGallery = () => {
-  const lightbox = new SimpleLightbox('.gallery a');
   lightbox.refresh();
 };

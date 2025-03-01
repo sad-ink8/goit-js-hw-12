@@ -1,3 +1,13 @@
+.load-btn {
+  align-self: center;
+  justify-self: center;
+
+  border-radius: 8px;
+  padding: 8px 16px;
+  width: 125px;
+  height: 40px;
+}
+
 .form {
   display: flex;
   gap: 24px;
@@ -47,11 +57,14 @@ button {
   border: 1px solid #808080;
 }
 
+.box {
+  max-height: 424px;
+}
+
 .gallery-img {
   display: block;
   max-width: 100%;
   object-fit: cover;
-  height: 100%;
 }
 
 .description {
