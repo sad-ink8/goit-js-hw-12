@@ -111,6 +111,7 @@ span {
   border-radius: 50%;
   position: relative;
   animation: rotate 1s linear infinite;
+  overflow: hidden;
 }
 .loader::before,
 .loader::after {

@@ -4,7 +4,7 @@ import iziToast from 'izitoast'; // Описаний у документації
 import 'izitoast/dist/css/iziToast.min.css'; // Додатковий імпорт стилів
 
 const gallery = document.querySelector('.gallery');
-const loadBtn = document.querySelector('.load-btn');
+const loadBtn = document.getElementById('loadbtn');
 
 export let totalHits = 0;
 
@@ -13,6 +13,8 @@ const renderImages = data => {
   totalHits = data.totalHits;
 
   if (hits.length === 0) {
+    removeLoader();
+    loadBtn.style.display = 'none';
     iziToast.error({
       message:
         'Sorry, there are no images matching your search query. Please try again!',
@@ -20,8 +22,6 @@ const renderImages = data => {
       position: 'topRight',
       backgroundColor: 'red',
     });
-
-    loadBtn.style.display = 'none';
   }
 
   return hits
@@ -59,3 +59,10 @@ const lightbox = new SimpleLightbox('.gallery a');
 export const lightBoxGallery = () => {
   lightbox.refresh();
 };
+
+function removeLoader() {
+  const loader = document.querySelector('.loader');
+  if (loader) {
+    loader.remove();
+  }
+}

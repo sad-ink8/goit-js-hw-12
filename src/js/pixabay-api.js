@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const loadBtn = document.querySelector('.load-btn');
+const loadBtn = document.getElementById('loadbtn');
 
 export async function getImg(query, page) {
   try {
@@ -15,7 +15,7 @@ export async function getImg(query, page) {
         per_page: 40,
       },
     });
-
+    loadBtn.style.display = 'block';
     return response.data;
   } catch (error) {
     console.error('Error:', error);

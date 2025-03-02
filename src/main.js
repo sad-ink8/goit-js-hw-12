@@ -9,7 +9,7 @@ import {
 
 const form = document.querySelector('form');
 const gallery = document.querySelector('.gallery');
-const loadBtn = document.querySelector('.load-btn');
+const loadBtn = document.getElementById('loadbtn');
 loadBtn.style.display = 'none';
 
 let search = '';
@@ -18,6 +18,9 @@ let page = 1;
 function main() {
   form.addEventListener('submit', async event => {
     event.preventDefault();
+
+    removeLoader();
+    loadBtn.insertAdjacentHTML('beforebegin', "<span class='loader'></span>");
 
     const formData = new FormData(event.target);
     search = formData.get('search');
@@ -29,11 +32,12 @@ function main() {
         position: 'topRight',
         backgroundColor: 'red',
       });
+      removeLoader();
       return;
     }
 
-    loadBtn.insertAdjacentHTML('afterend', "<span class='loader'></span>");
     form.reset();
+    page = 1;
 
     try {
       const firstImg = await getImg(search, page);
@@ -48,8 +52,8 @@ function main() {
   });
 
   loadBtn.addEventListener('click', async () => {
+    page += 1;
     try {
-      page += 1;
       const addImages = await getImg(search, page);
       showGallery(addImages);
       lightBoxGallery();
@@ -59,21 +63,6 @@ function main() {
       console.error('Error:', error);
     }
   });
-}
-
-function loadPages() {
-  const totalPages = document.querySelectorAll('.box').length;
-
-  if (totalPages >= totalHits) {
-    iziToast.error({
-      message: "We're sorry, but you've reached the end of search results.",
-      messageColor: 'white',
-      position: 'topRight',
-      backgroundColor: 'red',
-    });
-  } else {
-    loadBtn.style.display = 'block';
-  }
 }
 
 function scrollPage() {
@@ -86,6 +75,29 @@ function scrollPage() {
       top: boxH * 2,
       behavior: 'smooth',
     });
+  }
+}
+
+function loadPages() {
+  const totalPages = document.querySelectorAll('.box').length;
+
+  if (totalPages >= totalHits) {
+    iziToast.error({
+      message: "We're sorry, but you've reached the end of search results.",
+      messageColor: 'white',
+      position: 'topRight',
+      backgroundColor: 'red',
+    });
+    loadBtn.style.display = 'none';
+  } else {
+    loadBtn.style.display = 'block';
+  }
+}
+
+function removeLoader() {
+  const loader = document.querySelector('.loader');
+  if (loader) {
+    loader.remove();
   }
 }
 
