@@ -13,6 +13,7 @@ const renderImages = data => {
   totalHits = data.totalHits;
 
   if (hits.length === 0) {
+    console.log("No more images found. Removing loader.");
     removeLoader();
     loadBtn.style.display = 'none';
     iziToast.error({
